@@ -16,11 +16,34 @@
 # 来源：力扣（LeetCode）
 # 链接：https://leetcode-cn.com/problems/map-of-highest-peak
 # 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
-
+from collections import deque
 from typing import List
 
 
 class Solution:
     def highestPeak(self, isWater: List[List[int]]) -> List[List[int]]:
+        m, n = len(isWater), len(isWater[0])
+        ans = [[item - 1 for item in row] for row in isWater]
+        q = deque((i, j) for i, row in enumerate(isWater) for j, water in enumerate(row) if water)
+        while q:
+            i, j = q.popleft()
+            for x, y in ((i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)):
+                print(x, y)
+                if 0 <= x < m and 0 <= y < n and ans[x][y] == -1:
+                    ans[x][y] = ans[i][j] + 1
+                    q.append((x, y))
+                    # print(q)
+        return ans
 
-        return [[0]]
+
+# 思路：
+# 1. 水域确定为 0
+# 2. 水域周围只能是 1
+# 3. 其它格子最高只能为 周围格子中最低的格子的高度+1
+
+# 题解： 多源广搜
+
+if __name__ == '__main__':
+    s = Solution()
+    print(s.highestPeak([[0, 1], [0, 0]]))
+    # print(s.highestPeak([[0, 0, 1], [1, 0, 0], [0, 0, 0]]))
