@@ -15,6 +15,19 @@ class Solution:
         return ''.join(a)
 
 
+# 504 给定一个整数 num，将其转化为 7 进制，并以字符串形式输出。
+
+class Solution1:
+    def convertToBase7(self, num: int) -> str:
+        temp = abs(num)
+        ans = ''
+        while temp > 0:
+            ans += str(temp % 7)
+            temp = temp // 7
+        ans = ans[::-1]
+        return ans if num >= 0 else '-' + ans
+
+
 if __name__ == '__main__':
     s = Solution()
     assert s.reverseOnlyLetters("ab-cd") == "dc-ba"
